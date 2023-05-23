@@ -1,7 +1,7 @@
 import { ClientService } from './../client.service';
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../client';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-client',
@@ -13,15 +13,17 @@ export class ClientComponent implements OnInit {
   clients: Client[] = [];
   isEditing : boolean = false;
   formGroupClient: FormGroup;
+  submitted: boolean = false;
+
 
   constructor(private ClientService: ClientService,
     private formBuilder: FormBuilder) {
       this.formGroupClient = formBuilder.group({
         id : [''],
-        name : [''],
-        email : [''],
-        rg : [''],
-        telefone : ['']
+        name : ['', [Validators.required]],
+        email : ['', [Validators.required, Validators.email]],
+        rg : ['', [Validators.required]],
+        telefone : ['', [Validators.required]]
 
       });
   }
@@ -37,6 +39,8 @@ export class ClientComponent implements OnInit {
     )
   }
   save() {
+    this.submitted = true;
+    if(this.formGroupClient.valid)
     if(this.isEditing)
     {
       this.ClientService.update(this.formGroupClient.value).subscribe(
@@ -46,6 +50,8 @@ export class ClientComponent implements OnInit {
           this.loadClient();
           this.formGroupClient.reset();
           this.isEditing = false;
+          this.submitted = false;
+
         }
     }
       )
@@ -64,6 +70,7 @@ export class ClientComponent implements OnInit {
   clean (){
     this.formGroupClient.reset();
     this.isEditing = false;
+    this.submitted = false;
   }
   edit(client : Client){
     this.formGroupClient.setValue(client);
@@ -76,4 +83,17 @@ export class ClientComponent implements OnInit {
       next: () => this.loadClient()
     })
   }
+  get name() : any{
+    return this.formGroupClient.get("name");
+  }
+  get email() : any{
+    return this.formGroupClient.get("email");
+  }
+  get rg() : any{
+    return this.formGroupClient.get("rg");
+  }
+  get telefone() : any{
+    return this.formGroupClient.get("telefone");
+  }
 }
+

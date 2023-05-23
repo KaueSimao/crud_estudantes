@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-8 m-auto">
+    <form [formGroup]="formGroupClient">
+      <div class="mb-3">
+        <div class="display-4 text-center">
+          Cadastro de Clientes
+        </div>
+        <label for="name" class="form-label">Nome:</label>
+        <input type="text" class="form-control" id="name"  formControlName="name" placeholder="Nome">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+      </div>
+      <div class="mb-3">
+        <label for="number" class="form-label">RG:</label>
+        <input type="number" class="form-control" id="rg" formControlName="rg" placeholder="RG">
+      </div>
+      <div class="mb-3">
+        <label for="telefone" class="form-label">Telefone:</label>
+        <input type="number" class="form-control" id="telefone" formControlName="telefone" placeholder="Telefone">
+      </div>
+      <div class="mb-3 text-center">
+        <button class="btn btn-primary btn-lg" (click)="save()">Salvar</button>
+        <button class="btn btn-secondary btn-lg" (click)="clean()">Limpar</button>
+      </div>
+    </form>
+  </div>
+</div>
+<form>
+  <div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Email</th>
+      <th scope="col">RG</th>
+      <th scope="col">Telefone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of clients">
+      <th scope="row">{{client.id}}</th>
+      <td>{{client.name}}</td>
+      <td>{{client.email}}</td>
+      <td>{{client.rg}}</td>
+      <td>{{client.telefone}}</td>
+        <button class="btn btn-outline-warning" (click)="edit(client)">Editar</button>
+        <button class="btn btn-outline-secondary" (click)="delete(client)">Excluir</button>
+    </tr>
+  </tbody>
+</table>
+</div>
+</form>
